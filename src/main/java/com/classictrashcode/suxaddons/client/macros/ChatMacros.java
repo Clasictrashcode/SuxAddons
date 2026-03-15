@@ -40,7 +40,13 @@ public class ChatMacros {
         for (Map.Entry<Integer, String> entry : macros.entrySet()) {
             int keyCode = entry.getKey();
             String message = entry.getValue();
-            boolean currentlyPressed = GLFW.glfwGetKey(window, keyCode) == GLFW.GLFW_PRESS;
+            boolean currentlyPressed;
+            if (keyCode <= -100) {
+                int mouseButton = -(keyCode + 100);
+                currentlyPressed = GLFW.glfwGetMouseButton(window, mouseButton) == GLFW.GLFW_PRESS;
+            } else {
+                currentlyPressed = GLFW.glfwGetKey(window, keyCode) == GLFW.GLFW_PRESS;
+            }
             boolean previouslyPressed = lastPressed.getOrDefault(keyCode, false);
             if (currentlyPressed && !previouslyPressed && Minecraft.getInstance().screen == null) {
                 System.out.println("Macro triggered: " + message);

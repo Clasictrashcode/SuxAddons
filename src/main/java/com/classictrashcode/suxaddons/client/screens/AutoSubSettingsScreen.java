@@ -721,6 +721,7 @@ public class AutoSubSettingsScreen extends Screen {
 
     private String getKeyName(int keyCode) {
         if (keyCode == -1) return "Not Set";
+        if (keyCode <= -100) return "MOUSE " + (-(keyCode + 100) + 1);
 
         String keyName = GLFW.glfwGetKeyName(keyCode, 0);
         if (keyName == null) {
@@ -903,11 +904,29 @@ public class AutoSubSettingsScreen extends Screen {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent click, boolean isDoubleClick) {
+        if (click.button() >= 2) {
+            if (activeKeybindButton != null && activeKeybindButton.isListening()) {
+                boolean handled = activeKeybindButton.handleMouseButton(click);
+                if (handled) {
+                    activeKeybindButton = null;
+                    return true;
+                }
+            }
+            for (WidgetEntry entry : contentWidgets) {
+                if (entry.widget instanceof KeybindButton keybindBtn && keybindBtn.isListening()) {
+                    boolean handled = keybindBtn.handleMouseButton(click);
+                    if (handled) {
+                        return true;
+                    }
+                }
+            }
+        }
+
         // If ANY dropdown is open, give it priority for click handling
         for (DropdownWidget dropdown : allDropdowns) {
             if (dropdown != null && dropdown.isOpen()) {
                 // Let the dropdown handle the click first
-                boolean handled = dropdown.mouseClicked(click,isDoubleClick);
+                boolean handled = dropdown.mouseClicked(click, isDoubleClick);
                 if (handled) {
                     return true;
                 }
@@ -917,7 +936,7 @@ public class AutoSubSettingsScreen extends Screen {
             }
         }
 
-        return super.mouseClicked(click,isDoubleClick);
+        return super.mouseClicked(click, isDoubleClick);
     }
 
     @Override

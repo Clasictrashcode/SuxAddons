@@ -44,27 +44,43 @@ public class KeybindButton extends net.minecraft.client.gui.components.Button {
         }
     }
 
-    /**
-     * Get whether this button is in listening mode
-     */
     public boolean isListening() {
         return this.listening;
     }
-
-    /**
-     * Handle key press when in listening mode
-     */
+    
     public boolean handleKeyPress(KeyEvent keyInput) {
         if (!this.listening) {
             return false;
         }
 
-        // ESC clears the binding
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+        // ESC clears the binding; check the newly pressed key, not the stored binding
+        if (keyInput.key() == GLFW.GLFW_KEY_ESCAPE) {
             this.keyCode = -1;
         } else {
             this.keyCode = keyInput.key();
         }
+
+        this.setListening(false);
+
+        if (this.onChange != null) {
+            this.onChange.accept(this.keyCode);
+        }
+
+        return true;
+    }
+    
+    public boolean handleMouseButton(MouseButtonEvent click) {
+        if (!this.listening) {
+            return false;
+        }
+
+        int button = click.button();
+        
+        if (button < 2) {
+            return false;
+        }
+        
+        this.keyCode = -(button + 100);
 
         this.setListening(false);
 
@@ -135,7 +151,16 @@ public class KeybindButton extends net.minecraft.client.gui.components.Button {
 
     @Override
     public void onClick(MouseButtonEvent click, boolean isDoubleClick) {
-        if (this.active) {
+        if (!this.active) {
+            return;
+        }
+        
+        if (this.listening && click.button() >= 2) {
+            handleMouseButton(click);
+            return;
+        }
+        
+        if (click.button() == 0) {
             this.setListening(true);
             this.playDownSound(Minecraft.getInstance().getSoundManager());
         }
@@ -195,6 +220,11 @@ public class KeybindButton extends net.minecraft.client.gui.components.Button {
 
     private static String getKeyName(int keyCode) {
         if (keyCode == -1) return "Not Set";
+        
+        if (keyCode <= -100) {
+            int button = -(keyCode + 100);
+            return "MOUSE " + (button + 1);
+        }
 
         String keyName = GLFW.glfwGetKeyName(keyCode, 0);
         if (keyName == null) {
