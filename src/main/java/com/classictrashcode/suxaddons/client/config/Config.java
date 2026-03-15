@@ -231,8 +231,10 @@ public class Config {
         }
     }
     public static class hunting {
-        @ConfigSubSettings(name = "Hideon Leaf Tracker", description = "Hideon Leaf Tracker settings", order = 1)
+        @ConfigSubSettings(name = "HideonLeaf Tracker", description = "Hideon Leaf Tracker Settings", order = 1)
         public HideonLeafTracker hideonLeafTracker = new HideonLeafTracker();
+        @ConfigSubSettings(name = "Cinderbat Tracker",description = "Cinderbat Tracker Settings",order = 2)
+        public CinderBatTracker cinderBatTracker = new CinderBatTracker();
     }
     public static class AutoFusion {
         @ConfigOption(name = "Enabled")
@@ -266,6 +268,12 @@ public class Config {
         public boolean enabled = false;
         @ConfigOption(name = "HideonLeafs Glowing", order = 1)
         public boolean hideOnLeafsGlowing = false;
+    }
+    public static class CinderBatTracker{
+        @ConfigOption(name = "Enabled")
+        public boolean enabled = false;
+        @ConfigOption(name = "Cinderbat Glowing", order = 1)
+        public boolean cinderBatGlowing = false;
     }
     public static class Debug {
         @ConfigOption(name = "Debug Mode", description = "Enable debug mode")

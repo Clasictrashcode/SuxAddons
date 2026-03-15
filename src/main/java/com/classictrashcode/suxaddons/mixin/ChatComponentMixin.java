@@ -1,6 +1,6 @@
 package com.classictrashcode.suxaddons.mixin;
 
-import com.classictrashcode.suxaddons.client.Logger;
+import com.classictrashcode.suxaddons.client.hunting.CinderBatTracker;
 import com.classictrashcode.suxaddons.client.hunting.HideonLeafTracker;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
@@ -17,5 +17,6 @@ public class ChatComponentMixin {
         String clean = raw.replaceAll("(?i)§[0-9A-FK-OR]", "");
         System.out.println("ChatHudMixin: "+clean);
         HideonLeafTracker.onMessage(clean);
+        CinderBatTracker.onMessage(clean);
     }
 }
