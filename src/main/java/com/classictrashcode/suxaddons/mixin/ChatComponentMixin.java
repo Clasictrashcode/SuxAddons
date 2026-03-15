@@ -2,6 +2,7 @@ package com.classictrashcode.suxaddons.mixin;
 
 import com.classictrashcode.suxaddons.client.hunting.CinderBatTracker;
 import com.classictrashcode.suxaddons.client.hunting.HideonLeafTracker;
+import com.classictrashcode.suxaddons.client.utils.BazzarTracker.BazzarTracker;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,5 +19,6 @@ public class ChatComponentMixin {
         System.out.println("ChatHudMixin: "+clean);
         HideonLeafTracker.onMessage(clean);
         CinderBatTracker.onMessage(clean);
+        BazzarTracker.onMessage(clean);
     }
 }

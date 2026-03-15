@@ -7,6 +7,7 @@ import com.classictrashcode.suxaddons.client.hunting.CinderBatTrackerHud;
 import com.classictrashcode.suxaddons.client.hunting.HideonLeafTracker;
 import com.classictrashcode.suxaddons.client.hunting.HideonLeafTrackerHud;
 import com.classictrashcode.suxaddons.client.macros.ChatMacros;
+import com.classictrashcode.suxaddons.client.utils.BazzarTracker.BazzarTracker;
 import com.classictrashcode.suxaddons.client.utils.ChatUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -22,6 +23,7 @@ public class SuxaddonsClient implements ClientModInitializer {
             ChatUtils.tick();
             HideonLeafTracker.tick();
             CinderBatTracker.tick();
+            BazzarTracker.tick();
             ChatMacros.tick(client.getWindow().handle());
         });
         HudRenderCallback.EVENT.register(new HideonLeafTrackerHud());
