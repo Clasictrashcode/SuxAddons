@@ -99,7 +99,8 @@ public class Config {
     }
 
     public static class Utilities {
-
+        @ConfigSubSettings(name = "Bazaar Tracker", description = "Track bazaar Orders", order = 2)
+        public BazaarTracker bazaarTracker = new BazaarTracker();
     }
     public static class BazaarTracker {
         @ConfigOption(name = "Enabled")
@@ -230,7 +231,8 @@ public class Config {
         }
     }
     public static class hunting {
-
+        @ConfigSubSettings(name = "Hideon Leaf Tracker", description = "Hideon Leaf Tracker settings", order = 1)
+        public HideonLeafTracker hideonLeafTracker = new HideonLeafTracker();
     }
     public static class AutoFusion {
         @ConfigOption(name = "Enabled")

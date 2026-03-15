@@ -4,8 +4,10 @@
   "package": "com.classictrashcode.suxaddons.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EntityGlowingMixin"
   ],
   "client": [
+    "ChatComponentMixin"
   ],
   "injectors": {
     "defaultRequire": 1
