@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "suxaddons",
+  "version": "${version}",
+  "name": "Sux Addons",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/suxaddons/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.classictrashcode.suxaddons.client.SuxaddonsClient"
+    ],
+    "main": [
+      "com.classictrashcode.suxaddons.Suxaddons"
+    ]
+  },
+  "mixins": [
+    "suxaddons.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
