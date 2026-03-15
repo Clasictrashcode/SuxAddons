@@ -233,6 +233,8 @@ public class Config {
         public HideonLeafTracker hideonLeafTracker = new HideonLeafTracker();
         @ConfigSubSettings(name = "Cinderbat Tracker",description = "Cinderbat Tracker Settings",order = 2)
         public CinderBatTracker cinderBatTracker = new CinderBatTracker();
+        @ConfigSubSettings(name = "AutoFusion",description = "Automatically refuse the shards untill they run out or you press stop",order = 99)
+        public AutoFusion autoFusion = new AutoFusion();
     }
     public static class AutoFusion {
         @ConfigOption(name = "Enabled")

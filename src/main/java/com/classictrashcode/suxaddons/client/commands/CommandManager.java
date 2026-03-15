@@ -10,7 +10,6 @@ public class CommandManager {
     public static void registerCommands(){
         System.out.printf("[%s] Registering Commands%n", SuxaddonsClient.MOD_ID);
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-        
             LiteralArgumentBuilder<FabricClientCommandSource> base =
                     ClientCommandManager.literal(SuxaddonsClient.MOD_ID);
             base = ConfigScreenCommand.register(base);

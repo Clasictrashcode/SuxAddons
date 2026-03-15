@@ -1,5 +1,6 @@
 package com.classictrashcode.suxaddons.mixin;
 
+import com.classictrashcode.suxaddons.client.hunting.AutoFusionOverlay;
 import com.classictrashcode.suxaddons.client.utils.BazzarTracker.BazaarTrackerOverlay;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,6 +17,7 @@ public class AbstractContainerScreenMixin {
     private void onRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci){
         AbstractContainerScreen<?> screen =(AbstractContainerScreen<?>) (Object) this;
         BazaarTrackerOverlay.renderOverlay(guiGraphics,screen.width,screen.height,mouseX,mouseY);
+        AutoFusionOverlay.renderOverlay(guiGraphics, screen.width, screen.height, mouseX, mouseY);
     }
     @Inject(method = "mouseClicked",at = @At("HEAD"), cancellable = true)
     private void onMouseclicked(MouseButtonEvent mouseButtonEvent, boolean bl, CallbackInfoReturnable<Boolean> cir){
@@ -24,7 +26,9 @@ public class AbstractContainerScreenMixin {
             double mouseY = mouseButtonEvent.y();
             if (BazaarTrackerOverlay.handleMouseClick(mouseX,mouseY)){
                 cir.setReturnValue(true);
-                return;
+            }
+            if (AutoFusionOverlay.handleClick((int) mouseX, (int) mouseY)) {
+                cir.setReturnValue(true);
             }
         }
     }
