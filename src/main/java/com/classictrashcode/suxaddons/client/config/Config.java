@@ -1,6 +1,7 @@
 package com.classictrashcode.suxaddons.client.config;
 
 import com.classictrashcode.suxaddons.client.config.annotations.*;
+import org.jetbrains.annotations.Range;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -235,6 +236,21 @@ public class Config {
         public CinderBatTracker cinderBatTracker = new CinderBatTracker();
         @ConfigSubSettings(name = "AutoFusion",description = "Automatically refuse the shards untill they run out or you press stop",order = 99)
         public AutoFusion autoFusion = new AutoFusion();
+        @ConfigSubSettings(name = "Auto Lasso Puller",description = "Automatically refuse the shards untill they run out or you press stop",order = 3)
+        public AutoLassoPuller autoLassoPuller = new AutoLassoPuller();
+    }
+    public static class  AutoLassoPuller{
+        @ConfigOption(name = "Enabled")
+        public boolean enabled = false;
+        @ConfigOption(name = "Cool Down Between Pulls in Ticks")
+        @ConfigRange(min = 10,max = 30)
+        public int coolDownBetweenPulls = 30; // 1.5 Seconds
+        @ConfigOption(name = "Min Delay in Ticks")
+        @ConfigRange(min = 2,max = 9)
+        public int minDelay = 5; // 250 ms
+        @ConfigRange(min = 10,max = 15)
+        @ConfigOption(name = "Max Delay in Ticks")
+        public int maxDelay = 10; // 500 ms
     }
     public static class AutoFusion {
         @ConfigOption(name = "Enabled")

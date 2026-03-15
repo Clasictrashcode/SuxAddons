@@ -6,6 +6,7 @@ import com.classictrashcode.suxaddons.client.hunting.*;
 import com.classictrashcode.suxaddons.client.macros.ChatMacros;
 import com.classictrashcode.suxaddons.client.utils.BazzarTracker.BazzarTracker;
 import com.classictrashcode.suxaddons.client.utils.ChatUtils;
+import com.classictrashcode.suxaddons.client.utils.InventoryUtils;
 import com.classictrashcode.suxaddons.client.utils.UpdateChecker;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -21,8 +22,10 @@ public class SuxaddonsClient implements ClientModInitializer {
         CommandManager.registerCommands();
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             ChatUtils.tick();
+            InventoryUtils.tick();
             HideonLeafTracker.tick();
             CinderBatTracker.tick();
+            LassoPuller.tick();
             BazzarTracker.tick();
             AutoFusion.tick();
             ChatMacros.tick(client.getWindow().handle());

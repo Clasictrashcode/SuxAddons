@@ -7,8 +7,29 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 
 public class InventoryUtils {
+
+    private static final Queue<Integer> useHandQueue = new LinkedList<>();
+
+    public static void tick() {
+        if (useHandQueue.isEmpty()) return;
+        int remaining = useHandQueue.peek();
+        if (remaining > 0) {
+            useHandQueue.poll();
+            useHandQueue.offer(remaining - 1);
+            return;
+        }
+        useHandQueue.poll();
+        useHand();
+    }
+
+    public static void useHandDelayed(int ticks) {
+        useHandQueue.offer(ticks);
+    }
 
     public static void clickSlot(int slot) {
         Minecraft client = Minecraft.getInstance();

@@ -10,11 +10,14 @@ public class Logger {
     public static void DebugLog(String source,String message) {
         if (ConfigManager.getConfig().debug.debugMode){
             String formatedMessage = String.format("[%s][%s][Debug]: %s",MOD_ID,source,message);
-            System.out.printf(formatedMessage);
+            System.out.println(formatedMessage);
             inGameLog(formatedMessage);
         }
     }
     public static void inGameLog(String source,String message) {
+        if (message == null) {
+            return;
+        }
         String formatedMessage = String.format("[%s][%s]: %s",MOD_ID,source,message);
         inGameLog(formatedMessage);
     }
