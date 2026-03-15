@@ -205,6 +205,8 @@ public class Config {
         public int slot9 = -1;
     }
     public static class Macros {
+        @ConfigSubSettings(name = "Chat Macros", description = "Configure chat macro keybinds and messages", order = 3)
+        public ChatMacrosSettings chatMacros = new ChatMacrosSettings();
     }
     public static class ChatMacrosSettings {
         @ConfigOption(name = "Enabled")

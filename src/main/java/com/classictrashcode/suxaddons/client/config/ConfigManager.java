@@ -1,5 +1,6 @@
 package com.classictrashcode.suxaddons.client.config;
 
+import com.classictrashcode.suxaddons.client.macros.ChatMacros;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -62,6 +63,7 @@ public class ConfigManager {
             System.err.println("[SuxAddons] Failed to save config: " + e.getMessage());
             e.printStackTrace();
         }
+        ChatMacros.onConfigChanged();
     }
 
     public static Config getConfig() {

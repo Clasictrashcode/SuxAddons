@@ -1,4 +1,4 @@
-package com.classictrashcode.suxaddons.utils;
+package com.classictrashcode.suxaddons.client.utils;
 
 import com.classictrashcode.suxaddons.client.Logger;
 import net.minecraft.client.Minecraft;

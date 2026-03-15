@@ -1,4 +1,4 @@
-package com.classictrashcode.suxaddons.utils;
+package com.classictrashcode.suxaddons.client.utils;
 
 
 import net.minecraft.client.Minecraft;
