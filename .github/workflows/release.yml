@@ -21,7 +21,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Build
-        run: ./gradlew build
+        run: |
+          chmod +x gradlew
+          ./gradlew build
 
       - name: Get tag name
         id: tag
