@@ -100,6 +100,15 @@ public class Config {
     public static class Utilities {
         @ConfigSubSettings(name = "Bazaar Tracker", description = "Track bazaar Orders", order = 2)
         public BazaarTracker bazaarTracker = new BazaarTracker();
+        @ConfigSubSettings(name = "Tracer", description = "Draw a line from the crosshair to a tracked entity", order = 3)
+        public Tracer tracer = new Tracer();
+    }
+    public static class Tracer {
+        @ConfigOption(name = "Enabled")
+        public boolean enabled = false;
+        @ConfigOption(name = "Line Width", description = "Thickness of the tracer line in pixels", order = 1)
+        @ConfigRange(min = 1, max = 5, step = 1)
+        public int lineWidth = 1;
     }
     public static class BazaarTracker {
         @ConfigOption(name = "Enabled")

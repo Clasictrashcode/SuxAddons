@@ -14,6 +14,7 @@ public class CommandManager {
                     ClientCommandManager.literal(SuxaddonsClient.MOD_ID);
             base = ConfigScreenCommand.register(base);
             base = ConfigCommand.register(base);
+            base = TracerCommand.register(base);
             dispatcher.register(base);
         });
     }

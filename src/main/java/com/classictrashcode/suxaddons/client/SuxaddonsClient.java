@@ -7,6 +7,7 @@ import com.classictrashcode.suxaddons.client.macros.ChatMacros;
 import com.classictrashcode.suxaddons.client.utils.BazzarTracker.BazzarTracker;
 import com.classictrashcode.suxaddons.client.utils.ChatUtils;
 import com.classictrashcode.suxaddons.client.utils.InventoryUtils;
+import com.classictrashcode.suxaddons.client.utils.TracerRenderer;
 import com.classictrashcode.suxaddons.client.utils.UpdateChecker;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -32,6 +33,7 @@ public class SuxaddonsClient implements ClientModInitializer {
         });
         HudRenderCallback.EVENT.register(new HideonLeafTrackerHud());
         HudRenderCallback.EVENT.register(new CinderBatTrackerHud());
+        HudRenderCallback.EVENT.register(new TracerRenderer());
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> UpdateChecker.onJoin());
     }
 }

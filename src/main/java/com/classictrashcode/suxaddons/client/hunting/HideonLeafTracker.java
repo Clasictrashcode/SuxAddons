@@ -3,6 +3,10 @@ package com.classictrashcode.suxaddons.client.hunting;
 
 import com.classictrashcode.suxaddons.client.config.ConfigManager;
 import com.classictrashcode.suxaddons.client.utils.BazzarTracker.BazaarAPI;
+import com.classictrashcode.suxaddons.client.utils.TracerRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 
 public class HideonLeafTracker {
     private static final String HIDEONLEAF_SHARD_ID = "SHARD_HIDEONLEAF";
@@ -15,6 +19,26 @@ public class HideonLeafTracker {
 
     public static void tick(){
         if (!isTracking) return;
+
+        if (TracerRenderer.currentTarget == null) {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.level != null && mc.player != null) {
+                Entity nearest = null;
+                double nearestDistSq = Double.MAX_VALUE;
+                for (Entity entity : mc.level.entitiesForRendering()) {
+                    if (entity.getType() != EntityType.SHULKER) continue;
+                    if (!entity.isAlive()) continue;
+                    double distSq = entity.distanceToSqr(mc.player);
+                    if (distSq < nearestDistSq) {
+                        nearestDistSq = distSq;
+                        nearest = entity;
+                    }
+                }
+                if (nearest != null) {
+                    TracerRenderer.pinEntity(nearest);
+                }
+            }
+        }
 
         if (trackedTime % 1200 == 0) { // Every minute
             BazaarAPI.updateData();
@@ -35,6 +59,27 @@ public class HideonLeafTracker {
             RESET_TIME = 2400;
             if (ConfigManager.getConfig().debug.debugMode) {
                 System.out.println("[HideonLeafTracker] Hideonleaf caught! Total: " + NumberOfHideonleafsCaught);
+            }
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.level != null && mc.player != null) {
+                Entity current = TracerRenderer.currentTarget;
+                Entity next = null;
+                double nextDistSq = Double.MAX_VALUE;
+                for (Entity entity : mc.level.entitiesForRendering()) {
+                    if (entity.getType() != EntityType.SHULKER) continue;
+                    if (!entity.isAlive()) continue;
+                    if (entity == current) continue;
+                    double distSq = entity.distanceToSqr(mc.player);
+                    if (distSq < nextDistSq) {
+                        nextDistSq = distSq;
+                        next = entity;
+                    }
+                }
+                if (next != null) {
+                    TracerRenderer.pinEntity(next);
+                } else {
+                    TracerRenderer.clearTarget();
+                }
             }
         }
 
@@ -85,6 +130,7 @@ public class HideonLeafTracker {
         NumberOfHideonleafShardsCaught = 0;
         isTracking = false;
         RESET_TIME = 2400;
+        TracerRenderer.clearTarget();
         trackedTime = 0;
     }
 

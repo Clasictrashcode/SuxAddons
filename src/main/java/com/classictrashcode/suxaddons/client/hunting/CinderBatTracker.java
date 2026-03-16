@@ -3,6 +3,8 @@ package com.classictrashcode.suxaddons.client.hunting;
 
 import com.classictrashcode.suxaddons.client.Logger;
 import com.classictrashcode.suxaddons.client.utils.BazzarTracker.BazaarAPI;
+import com.classictrashcode.suxaddons.client.utils.TracerRenderer;
+import net.minecraft.world.entity.EntityType;
 
 public class CinderBatTracker {
     private static final String CINDERBAT_SHARD_ID = "SHARD_CINDER_BAT";
@@ -12,12 +14,15 @@ public class CinderBatTracker {
     public static int NumberOfCinderbatsCaught = 0;
     public static int NumberOfCinderbatShardsCaught = 0;
     public static int trackedTime = 0;
+    private static final EntityType<?> targetType = EntityType.BAT;
 
     public static void tick(){
         if (!isTracking) return;
-
         if (trackedTime % 1200 == 0) { // Every minute
             BazaarAPI.updateData();
+        }
+        if(TracerRenderer.getTargetType() != targetType){
+            TracerRenderer.setTargetType(targetType);
         }
 
         trackedTime++;
@@ -70,6 +75,7 @@ public class CinderBatTracker {
         isTracking = false;
         RESET_TIME = 2400;
         trackedTime = 0;
+        TracerRenderer.clearTarget();
     }
 
     public static double getTotalCoinsFromSell() {
