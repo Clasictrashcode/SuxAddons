@@ -4,6 +4,8 @@ package com.classictrashcode.suxaddons.client.hunting;
 import com.classictrashcode.suxaddons.client.Logger;
 import com.classictrashcode.suxaddons.client.utils.BazzarTracker.BazaarAPI;
 import com.classictrashcode.suxaddons.client.utils.TracerRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
 public class CinderBatTracker {
@@ -14,15 +16,25 @@ public class CinderBatTracker {
     public static int NumberOfCinderbatsCaught = 0;
     public static int NumberOfCinderbatShardsCaught = 0;
     public static int trackedTime = 0;
-    private static final EntityType<?> targetType = EntityType.BAT;
-
     public static void tick(){
         if (!isTracking) return;
-        if (trackedTime % 1200 == 0) { // Every minute
+        if (trackedTime % 1200 == 0) {
             BazaarAPI.updateData();
         }
-        if(TracerRenderer.getTargetType() != targetType){
-            TracerRenderer.setTargetType(targetType);
+
+        if (TracerRenderer.currentTarget == null) {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.level != null && mc.player != null) {
+                Entity nearest = null;
+                double nearestDistSq = Double.MAX_VALUE;
+                for (Entity entity : mc.level.entitiesForRendering()) {
+                    if (entity.getType() != EntityType.BAT) continue;
+                    if (!entity.isAlive() || entity.isInvisible()) continue;
+                    double distSq = entity.distanceToSqr(mc.player);
+                    if (distSq < nearestDistSq) { nearestDistSq = distSq; nearest = entity; }
+                }
+                if (nearest != null) TracerRenderer.pinEntity(nearest);
+            }
         }
 
         trackedTime++;
@@ -62,6 +74,21 @@ public class CinderBatTracker {
             NumberOfCinderbatsCaught++;
             NumberOfCinderbatShardsCaught += amount;
             Logger.DebugLog("CinderBatTracker", "Cinderbat caught! Shards: +" + amount + " (total: " + NumberOfCinderbatShardsCaught + ") | Bats: " + NumberOfCinderbatsCaught);
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.level != null && mc.player != null) {
+                Entity current = TracerRenderer.currentTarget;
+                Entity next = null;
+                double nextDistSq = Double.MAX_VALUE;
+                for (Entity entity : mc.level.entitiesForRendering()) {
+                    if (entity.getType() != EntityType.BAT) continue;
+                    if (!entity.isAlive() || entity.isInvisible()) continue;
+                    if (entity == current) continue;
+                    double distSq = entity.distanceToSqr(mc.player);
+                    if (distSq < nextDistSq) { nextDistSq = distSq; next = entity; }
+                }
+                if (next != null) TracerRenderer.pinEntity(next);
+                else TracerRenderer.clearTarget();
+            }
         }
     }
 
